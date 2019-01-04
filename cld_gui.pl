@@ -66,7 +66,7 @@ if(-d $ENV{PAR_TEMP}."/inc/"){
 }
 $| = 1;
 
-my ($script_name,$script_version,$script_date,$script_years) = ('cld','1.4.1','2017-01-25','2013-2015');
+my ($script_name,$script_version,$script_date,$script_years) = ('cld','1.4.6','2017-02-17','2013-2015');
 
 
 ###################################################################################################################################################################################################
@@ -313,7 +313,7 @@ if ($something{"GUI"}) {
 																	"max_T"=>80,
 																	"bowtie_version"=>"bowtie",
 																	"offtargetdb"=>"genomeDNA",
-																	"off-targets-allowed"=>5,
+																	"targets-allowed"=>5,
 																	"unspecific_leading_bases"=>6,
 																	"edit_distance_allowed"=>2,
 																	"bowtie_mode"=>"very-sensitive",
@@ -357,7 +357,7 @@ if ($something{"GUI"}) {
 																	"max_T"=>80,
 																	"bowtie_version"=>"bowtie",
 																	"offtargetdb"=>"genomeDNA",
-																	"off-targets-allowed"=>10,
+																	"targets-allowed"=>10,
 																	"unspecific_leading_bases"=>1,
 																	"edit_distance_allowed"=>1,
 																	"bowtie_mode"=>"sensitive",
@@ -398,7 +398,7 @@ if ($something{"GUI"}) {
 																	"max_T"=>90,
 																	"bowtie_version"=>"bowtie2",
 																	"offtargetdb"=>"gDNA",
-																	"off-targets-allowed"=>20,
+																	"targets-allowed"=>20,
 																	"unspecific_leading_bases"=>0,
 																	"edit_distance_allowed"=>0,
 																	"bowtie_mode"=>"fast",
@@ -438,7 +438,7 @@ if ($something{"GUI"}) {
 																	"max_T"=>90,
 																	"bowtie_version"=>"bowtie",
 																	"offtargetdb"=>"gDNA",
-																	"off-targets-allowed"=>5,
+																	"targets-allowed"=>5,
 																	"unspecific_leading_bases"=>3,
 																	"edit_distance_allowed"=>2,
 																	"bowtie_mode"=>"very-sensitive",
@@ -482,7 +482,7 @@ if ($something{"GUI"}) {
 																	"max_T"=>90,
 																	"bowtie_version"=>"bowtie",
 																	"offtargetdb"=>"gDNA",
-																	"off-targets-allowed"=>5,
+																	"targets-allowed"=>5,
 																	"unspecific_leading_bases"=>3,
 																	"edit_distance_allowed"=>2,
 																	"bowtie_mode"=>"very-sensitive",
@@ -526,7 +526,7 @@ if ($something{"GUI"}) {
 																	"max_T"=>90,
 																	"bowtie_version"=>"bowtie",
 																	"offtargetdb"=>"gDNA",
-																	"off-targets-allowed"=>5,
+																	"targets-allowed"=>5,
 																	"unspecific_leading_bases"=>3,
 																	"edit_distance_allowed"=>2,
 																	"bowtie_mode"=>"very-sensitive",
@@ -574,7 +574,7 @@ if ($something{"GUI"}) {
 				#off-target specific options										;#
 				#$something{"bowtie_version"}="bowtie"								;#
 				#$something{"offtargetdb"}="gDNA"									;#
-				$something{"off-targets-allowed"}=5									;#
+				$something{"targets-allowed"}=5									;#
 				$something{"unspecific_leading_bases"}=5							;#
 				$something{"edit_distance_allowed"}=2								;#
 				#$something{"bowtie_mode"}="very-sensitive"							;#
@@ -1220,6 +1220,7 @@ if ($something{"GUI"}) {
 									   ["NG"=>"NG"],
 									   ["AWG"=>"AWG"],
 									   ["TTC"=>"TTC"],
+                                       ["TTTV"=>"TTTV"],
 									   ["NRG"=>"NRG"],
 									   ["CCN"=>"CCN"],
 									   ["NGGNG"=>"NGGNG"],
@@ -1329,8 +1330,8 @@ if ($something{"GUI"}) {
 					   -textvariable => \$something{"offtargetdb"}
 					)																	;
 																				   ;
-					$scl_off_targets_allowed 	= $offtarget_options_frame -> Scale(-label=>"off-targets allowed [#]:",-orient=>'h',	-length=>150,	-digit=>1,	-from=>0,	-to=>100,	-variable=>\$something{"off-targets-allowed"}, -tickinterval=>33,	-resolution=>1	);	#make slider with a minimum, a maximum,an orientation, a modifed variable, a certain bckground color, the intervals ticks should be drawn, the number by that the interval should be devided 1..100 will be devided by ten so that every tenth value can be selected
-					$scl_unspecific_leading_bases 	= $offtarget_options_frame -> Scale(-label=>"unspecific 5' bases [nt]:",-orient=>'h',	-length=>150,	-digit=>1,	-from=>0,	-to=>10,	-variable=>\$something{"unspecific_leading_bases"}, -tickinterval=>3,	-resolution=>1	);	#make slider with a minimum, a maximum,an orientation, a modifed variable, a certain bckground color, the intervals ticks should be drawn, the number by that the interval should be devided 1..100 will be devided by ten so that every tenth value can be selected
+					$scl_off_targets_allowed 	= $offtarget_options_frame -> Scale(-label=>"targets allowed [#]:",-orient=>'h',	-length=>150,	-digit=>1,	-from=>1,	-to=>100,	-variable=>\$something{"targets-allowed"}, -tickinterval=>33,	-resolution=>1	);	#make slider with a minimum, a maximum,an orientation, a modifed variable, a certain bckground color, the intervals ticks should be drawn, the number by that the interval should be devided 1..100 will be devided by ten so that every tenth value can be selected
+					$scl_unspecific_leading_bases 	= $offtarget_options_frame -> Scale(-label=>"unspecific PAM distal bases [nt]:",-orient=>'h',	-length=>150,	-digit=>1,	-from=>0,	-to=>10,	-variable=>\$something{"unspecific_leading_bases"}, -tickinterval=>3,	-resolution=>1	);	#make slider with a minimum, a maximum,an orientation, a modifed variable, a certain bckground color, the intervals ticks should be drawn, the number by that the interval should be devided 1..100 will be devided by ten so that every tenth value can be selected
 					$scl_edit_distance_allowed 	= $offtarget_options_frame -> Scale(-label=>"mismatches allowed [nt]:",-orient=>'h',	-length=>150,	-digit=>1,	-from=>0,	-to=>5,	-variable=>\$something{"edit_distance_allowed"}, -tickinterval=>2,	-resolution=>1	);	#make slider with a minimum, a maximum,an orientation, a modifed variable, a certain bckground color, the intervals ticks should be drawn, the number by that the interval should be devided 1..100 will be devided by ten so that every tenth value can be selected
 					
 					$chk_ignore_intergenic = $offtarget_options_frame 		-> Checkbutton(
@@ -1570,9 +1571,9 @@ if ($something{"GUI"}) {
 					$chk_retrieve_recomb_matrix	-> grid(-row=>4,-column=>1,-columnspan=>2,-sticky=>"nw");
 					$scl_right_homology			-> grid(-row=>5,-column=>1,-sticky=>"nw");
 					$scl_left_homology			-> grid(-row=>5,-column=>2,-sticky=>"nw");
-					$lab_knockout				-> grid(-row=>6,-column=>1,-columnspan=>2,-sticky=>"nw",-pady =>20);
-					$scl_downstream_window		-> grid(-row=>7,-column=>1,-sticky=>"nw");
-					$scl_upstream_window		-> grid(-row=>7,-column=>2,-sticky=>"nw");
+                    $scl_downstream_window		-> grid(-row=>6,-column=>1,-sticky=>"nw");
+					$scl_upstream_window		-> grid(-row=>6,-column=>2,-sticky=>"nw");                    
+					$lab_knockout				-> grid(-row=>7,-column=>1,-columnspan=>2,-sticky=>"nw",-pady =>20);					
 					$scl_number_of_CDS			-> grid(-row=>8,-column=>1,-sticky=>"nw");
 					$lab_paired					-> grid(-row=>9,-column=>1,-columnspan=>2,-sticky=>"nw",-pady =>20);
 					$scl_minspacerlength		-> grid(-row=>10,-column=>1,-sticky=>"nw");
@@ -1667,7 +1668,8 @@ if ($something{"GUI"}) {
 																	defined($something{"correct_5_prime_G"}) ? $something{"correct_5_prime_G"} : 1, 
 																	$something{"working_path"},
 																	$something{"gene_list_file_name"},
-																	defined($something{"cover_many_transcripts"}) ? $something{"cover_many_transcripts"} : 0
+																	defined($something{"cover_many_transcripts"}) ? $something{"cover_many_transcripts"} : 0,
+                                                                    %something
 																	);
                                                         }
                                                     });
@@ -1766,7 +1768,8 @@ if ($something{"GUI"}) {
 					defined($something{"correct_5_prime_G"}) ? $something{"correct_5_prime_G"} : 1, 
 					$something{"working_path"},
 					$something{"gene_list_file_name"},
-					defined($something{"cover_many_transcripts"}) ? $something{"cover_many_transcripts"} : 0
+					defined($something{"cover_many_transcripts"}) ? $something{"cover_many_transcripts"} : 0,
+                    %something
 				);
 		}elsif($something{"task"} eq "library_assembly"){
 			if(!defined($something{"gene_list_file_name"})){
@@ -1793,7 +1796,8 @@ if ($something{"GUI"}) {
 					defined($something{"correct_5_prime_G"}) ? $something{"correct_5_prime_G"} : 1, 
 					$something{"working_path"},
 					$something{"gene_list_file_name"},
-					defined($something{"cover_many_transcripts"}) ? $something{"cover_many_transcripts"} : 0
+					defined($something{"cover_many_transcripts"}) ? $something{"cover_many_transcripts"} : 0,
+                    %something
 				   );
 		}else{
 			die "Some parameters are missing!\nOne of the four options make_database , target_ident , end_to_end or library assembly must be set.\n";
@@ -2188,16 +2192,30 @@ sub make_mismatch_string{
                   $pos++
             }
       }
-      if ($_[2] eq "fw") {
+      if($_[3] eq "3_prime"){
+        if ($_[2] eq "fw") {
             foreach (1..$_[1]){
                   unshift @matchstring , "n";
             }
-      }
-      else {
+        }
+        else {
+              foreach (1..$_[1]){
+                    push @matchstring , "n";
+              }
+        }
+      }else{
+        if ($_[2] eq "fw") {            
             foreach (1..$_[1]){
-                  push @matchstring , "n";
+                    push @matchstring , "n";
+              }
+        }
+        else {
+              foreach (1..$_[1]){
+                  unshift @matchstring , "n";
             }
+        }
       }
+      
       
       
       return(@matchstring);
@@ -2325,7 +2343,8 @@ sub filter_library{
     my $correct_five_prime=$_[6];
 	my $output_dir=$_[7];
 	my $gene_list_file=$_[8];
-	my $many_transcripts=$_[9];	
+	my $many_transcripts=$_[9];
+    my %parameters=$_[10];
     my @info=();
 	my @ids;
     my @line=();
@@ -2486,24 +2505,34 @@ sub filter_library{
 					$all_ids{$line[0]}++;
 					if (!exists($fasta{$line[0]})) {
 						print $libtab_out $_;
-						if ($correct_five_prime ==1) {
-							if ($line[6]=~m/\w(\w+)\s[NACGT]+_\w(\w+)\s[NACGT]+/) {
-								print $libfa_out ">".$line[0]."_left\n".$five_prime_extension."G".$1."$three_prime_extension\n";
-								print $libfa_out ">".$line[0]."_right\n".$five_prime_extension."G".$2."$three_prime_extension\n";
-							}else{
-								$line[6]=~m/\w(\w+)\s\w+/;
-								print $libfa_out ">".$line[0]."\n".$five_prime_extension."G".$1."$three_prime_extension\n";
-							}
-						}else{
-							if ($line[6]=~m/(\w+)\s[NACGT]+_(\w+)\s[NACGT]+/) {
-								print $libfa_out ">".$line[0]."_left\n".$five_prime_extension.$1."$three_prime_extension\n";
-								print $libfa_out ">".$line[0]."_right\n".$five_prime_extension.$2."$three_prime_extension\n";
-							}else{
-								$line[6]=~m/(\w+)\s\w+/;
-								print $libfa_out ">".$line[0]."\n"."$five_prime_extension".$1."$three_prime_extension\n";
-							}
-						
-						}
+                        if($something{"PAM_location"} eq "3_prime"){ 
+                            if ($correct_five_prime ==1) {
+                                if ($line[6]=~m/\w(\w+)\s[NACGT]+_\w(\w+)\s[NACGT]+/) {
+                                    print $libfa_out ">".$line[0]."_left\n".$five_prime_extension."G".$1."$three_prime_extension\n";
+                                    print $libfa_out ">".$line[0]."_right\n".$five_prime_extension."G".$2."$three_prime_extension\n";
+                                }else{
+                                    $line[6]=~m/\w(\w+)\s\w+/;
+                                    print $libfa_out ">".$line[0]."\n".$five_prime_extension."G".$1."$three_prime_extension\n";
+                                }
+                            }else{
+                                if ($line[6]=~m/(\w+)\s[NACGT]+_(\w+)\s[NACGT]+/) {
+                                    print $libfa_out ">".$line[0]."_left\n".$five_prime_extension.$1."$three_prime_extension\n";
+                                    print $libfa_out ">".$line[0]."_right\n".$five_prime_extension.$2."$three_prime_extension\n";
+                                }else{
+                                    $line[6]=~m/(\w+)\s\w+/;
+                                    print $libfa_out ">".$line[0]."\n"."$five_prime_extension".$1."$three_prime_extension\n";
+                                    
+                                }
+                            }
+                        }else{
+                                if ($line[6]=~m/[NACGT]+\s(\w+)_[NACGT]+\s(\w+)/) {
+                                    print $libfa_out ">".$line[0]."_left\n".$five_prime_extension.$1."$three_prime_extension\n";
+                                    print $libfa_out ">".$line[0]."_right\n".$five_prime_extension.$2."$three_prime_extension\n";
+                                }else{
+                                    $line[6]=~m/\w+\s(\w+)/;
+                                    print $libfa_out ">".$line[0]."\n"."$five_prime_extension".$1."$three_prime_extension\n";
+                                }                            
+                        }
 						
 						$fasta{$line[0]}++;
 					}
@@ -2551,16 +2580,16 @@ sub filter_library{
         foreach my $key (keys %isgone) {
 			if (looks_like_number($isgone{$key})) {
                 print $mis 	$key." is missing from the library. It was covered by ".
-							$isgone{$key}." designs. Maybe it was covered two low or not found in the cld database.\n";
+							$isgone{$key}." designs. Maybe it was covered to low or not found in the cld database.\n";
 				print $key." is missing from the library. It was covered by ".
-							$isgone{$key}." designs. Maybe it was covered two low or not found in the cld database.\n";
+							$isgone{$key}." designs. Maybe it was covered to low or not found in the cld database.\n";
             }else{
 				print $mis 	$key," ",$isgone{$key};
 				print $key," ",$isgone{$key};
 			}
 		}
-		print $mis (scalar keys %genes_from_list) - (scalar keys %id_for_lib )." genes are missing because of two harsh design criteria\n";
-		print " ",((scalar keys %genes_from_list) - (scalar keys %id_for_lib ))," genes are missing because of two harsh design criteria\n";
+		print $mis (scalar keys %genes_from_list) - (scalar keys %id_for_lib ) + (scalar keys %isgone)." genes are missing because of to harsh design criteria or because they were not found by CLD in the data base.\n";
+		print " ",((scalar keys %genes_from_list) - (scalar keys %id_for_lib ) + (scalar keys %isgone))," genes are missing because of to harsh design criteria or because they were not found by CLD in the data base.\n";
     close $mis;
 	open (my $parameters, ">", $output_dir.$lib_name.".parameters.tab") or die $!;
 		foreach my $key (sort keys %something){
@@ -2969,6 +2998,14 @@ sub make_a_crispr_library{
                   }
 				close $infile;
 			}
+            my %seen;
+            @id = sort @id;
+            foreach my $string (@ids) {            
+                next unless $seen{$string}++;
+                 print $string." is a duplicated ID.\n Please ensure that all Sequence/Gene/Coordiante IDs are unique.\n" ;
+                 if (defined $something{"GUI"}) {$mw->update;};
+                die $string." is a duplicated ID.\n Please ensure that all Sequence/Gene/Coordiante IDs are unique.\n" ;
+            }            
             make_temp_fasta_file(\@ids, \%trees, \%something, $db, $temp_dir, 1);
             $seqio_obj = Bio::SeqIO->new( -file => $temp_dir . "/tempfile.fasta", -format => "fasta" ); #read the temporary fasta file            
       } elsif($something{"data_type"} eq "fasta") { 
@@ -2977,10 +3014,15 @@ sub make_a_crispr_library{
             #################################################################################################################################################################################
             my $count=0;
             my $temp="";
+            my %seen;
             open(my $infile, "<",$something{"input_file"});
                         while (my $line = <$infile>){
                               if ($line=~m/^(>.+)/) {
                                     $count++;
+                                    next unless $seen{$1}++;
+                                     print $string." is a duplicated ID.\n Please ensure that all Sequence/Gene/Coordiante IDs are unique.\n" ;
+                                     if (defined $something{"GUI"}) {$mw->update;};
+                                    die $string." is a duplicated ID.\n Please ensure that all Sequence/Gene/Coordiante IDs are unique.\n" ;                  
                               }elsif ($line=~m/([^ACGTUN\s]+)/){
                                     die $something{"input_file"}." is not a FASTA format file because it contains \"$1\" as bases\n" ;
                               }
@@ -3009,6 +3051,14 @@ sub make_a_crispr_library{
                   }
 				close $infile;
 			}
+            my %seen;
+            @id = sort @id;
+            foreach my $string (@id) {            
+                next unless $seen{$string}++;
+                print $string." is a duplicated ID.\n Please ensure that all Sequence/Gene/Coordiante IDs are unique.\n" ;
+                if (defined $something{"GUI"}) {$mw->update;};
+                die $string." is a duplicated ID.\n Please ensure that all Sequence/Gene/Coordiante IDs are unique.\n" ;
+            }
             make_temp_fasta_file_from_coords(\@ids, \%trees, \%something, $db, $temp_dir, 1);
             $seqio_obj = Bio::SeqIO->new( -file => $temp_dir . "/tempfile.fasta", -format => "fasta" ); #read the temporary fasta file
 		}
@@ -3172,8 +3222,8 @@ sub make_a_crispr_library{
                                     }
                               close $crisprs;
                               my $k = 30;
-                              if ($something{"off-targets-allowed"}>30) {
-                                $k=$something{"off-targets-allowed"}+1;
+                              if ($something{"targets-allowed"}>30) {
+                                $k=$something{"targets-allowed"}+1;
                               }                              
                               #####################################################################################################################################################################
                               #teemp_sec
@@ -3246,7 +3296,7 @@ sub make_a_crispr_library{
                                                             $direction = "fw";
                                                       }
                                                       if ( $line[0] =~ m/(\S+?_[^_]+_[^_]+)$/ig ) {
-                                                            my @matchstringo=make_mismatch_string (\$line,$something{"unspecific_leading_bases"}, $direction);
+                                                            my @matchstringo=make_mismatch_string (\$line,$something{"unspecific_leading_bases"}, $direction, $something{"PAM_location"});
                                                             my $cond=0;
                                                             if ($something{"PAM_location"} eq "3_prime") {
                                                                 if ( (  $direction eq "fw"
@@ -3401,7 +3451,7 @@ sub make_a_crispr_library{
                                                 if ( $line[0] =~ m/(\S+?_[^_]+_[^_]+)/ig ) {
                                                       $line[0] =~m/(\S+)_(\S+)_/;
                                                       my $seq = $1;
-                                                      my @matchstringo=make_mismatch_string (\$line,$something{"unspecific_leading_bases"}, $direction);
+                                                      my @matchstringo=make_mismatch_string (\$line,$something{"unspecific_leading_bases"}, $direction,$something{"PAM_location"});
                                                       my $startcoordinate=0;
                                                       my $spacer = abs($line[8]) - ((abs($line[8]) - abs($line[3] - $line[7])) * 2);
                                                       if ($something{"offtargetdb"} eq "genomicDNA") {                                                      
@@ -3516,7 +3566,7 @@ sub make_a_crispr_library{
                               if ( exists ${ ${ $CRISPR_hash{$fname} } {$key} }{"hits"} ) {
                                     $number_of_hits = scalar(split(";;",${ ${ $CRISPR_hash{$fname} } {$key} }{"hits"}));
                                     ${ ${ $CRISPR_hash{$fname} } {$key} }{"number_of_hits"} = $number_of_hits-1;
-                                    if (( $number_of_hits > $something{"off-targets-allowed"} + 2 || $number_of_hits < 1 ) ) {
+                                    if (( $number_of_hits > $something{"targets-allowed"} + 2 || $number_of_hits < 1 ) ) {
                                           $statistics{$fname}{"Number of designs excluded because they hit multiple targets or none"}++;
                                           delete $CRISPR_hash{$fname}{$key};
                                           next CRISPRHASHLOOP;
@@ -4420,9 +4470,9 @@ sub find_and_print_CRISPRS {
             
             {
                   my $json = JSON::XS::encode_json(\%CRISPR_hash);
-                  write_file( $temp_dir . "/" .$seq_obj->display_id . $cut . '.json', { binmode => ':raw' }, $json );
+                  write_file( $temp_dir . "/" .$seq_obj->display_id .'_'. $cut . '.json', { binmode => ':raw' }, $json );
                   $json = JSON::XS::encode_json(\%tempstatistics);
-                  write_file( $temp_dir . "/" . $seq_obj->display_id . $cut . 'stats.json', { binmode => ':raw' }, $json );
+                  write_file( $temp_dir . "/" . $seq_obj->display_id .'_'. $cut . 'stats.json', { binmode => ':raw' }, $json );
             }
             
             $pm->finish();
@@ -4434,15 +4484,15 @@ sub find_and_print_CRISPRS {
       
       $pm->wait_all_children();
       foreach  my $cut (@cuts) {
-            my $json = read_file( $temp_dir . "/" .$seq_obj->display_id . $cut . '.json', { binmode => ':raw' } );
+            my $json = read_file( $temp_dir . "/" .$seq_obj->display_id .'_'. $cut . '.json', { binmode => ':raw' } );
             %finished_CRISPR_hash = ( %finished_CRISPR_hash, %{ decode_json $json } );
-           unlink $temp_dir . "/" . $seq_obj->display_id . $cut . ".json";
-            $json = read_file( $temp_dir . "/" . $seq_obj->display_id . $cut . 'stats.json', { binmode => ':raw' } );
+           unlink $temp_dir . "/" . $seq_obj->display_id .'_'. $cut . ".json";
+            $json = read_file( $temp_dir . "/" . $seq_obj->display_id .'_'. $cut . 'stats.json', { binmode => ':raw' } );
             my %sechash=%{ decode_json $json };
             foreach  my $seckey (keys(%sechash)){
                         $tempstatistics{$seckey}+=$sechash{$seckey};
             }
-           unlink $temp_dir . "/" . $seq_obj->display_id . $cut . "stats.json";
+           unlink $temp_dir . "/" . $seq_obj->display_id .'_'. $cut . "stats.json";
       }
       return (\%finished_CRISPR_hash,\%tempstatistics);
 }
